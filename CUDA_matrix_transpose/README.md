@@ -265,14 +265,14 @@ See
 
 Change the Makefile
 
-
+```
   bash $ diff Makefile-CUDA-6.0  Makefile
   40c40
   < CUDA_PATH ?= "/opt/apps/cuda/6.0"
   ---
   > CUDA_PATH ?= "/opt/apps/cuda/5.5"
   ---
-
+```
 
 Make
 

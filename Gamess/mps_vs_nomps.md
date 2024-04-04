@@ -19,7 +19,7 @@
 
   - <a href=#wait_job>Wait for the jobs to start</a>
 
-  - <a href=#nohang>Check that Gamess does not hang</a
+  - <a href=#nohang>Check that Gamess does not hang</a>
      - <a href=#short_job>JS=23947569</a>
      - <a href=#long_job>JL=23941996</a> 
 

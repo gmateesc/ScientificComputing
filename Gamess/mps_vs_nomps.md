@@ -19,7 +19,10 @@
 
   - <a href=#wait_job>Wait for the jobs to start</a>
 
-  - <a href=#nohang>Check that Gamess does not hang</a>
+  - <a href=#nohang>Check that Gamess does not hang</a
+     - <a href=#short_job>JS=23947569</a>
+     - <a href=#long_job>JL=23941996</a> 
+
 
 
 
@@ -30,7 +33,9 @@
   - <a href=#wait_job2>Wait for the jobs to start</a>
 
   - <a href=#hangs>Check that Gamess hangs</a>
-  
+     - <a href=#short_job2>JS=23947619</a>
+     - <a href=#long_job2>JL=23942197</a>
+
 
 
 <p>
@@ -223,10 +228,11 @@ Show the status of the two jobs
 ### Check that Gamess does not hang
 
 
+<a name=short_job></a>
+#### JS=23947569
+
+
 ```
-
-JS=23947569
-
   perlmutter $ export JS=23947569
   
   perlmutter $ alias peek="ls -lh $PSCRATCH/$JS/output/JOB.*/*.log"
@@ -249,12 +255,45 @@ JS=23947569
   gpu time tdhf_apb (s)=           1.98
   gpu time tdhf_amb (s)=           1.64
 
+```
 
 
 
-JL=23941996
+The job needs more than 2h 55 min to complete, so it will be cancelled by SLURM when it reaches the maximum time
+
+```
+  perlmutter $ sacct -j $J $fmt
+  JobID           JobName  Partition  AllocCPUS      State  Timelimit               Start    Elapsed   NNodes      NCPUS        NodeList 
+  ------------ ---------- ---------- ---------- ---------- ---------- ------------------- ---------- -------- ---------- --------------- 
+  23941996     subgms_ba+   gpu_ss11          0    PENDING   07:55:00             Unknown   00:00:00        1          0   None assigned 
+
+  23947569     subgms_ba+   gpu_ss11        128    TIMEOUT   02:55:00 2024-04-04T06:47:28   02:55:22        1        128       nid001248 
+  23947569.ba+      batch                   128  CANCELLED            2024-04-04T06:47:28   02:55:29        1        128       nid001248 
+  23947569.ex+     extern                   128  COMPLETED            2024-04-04T06:47:28   02:55:27        1        128       nid001248 
+  23947569.0   gamess.00+                   128  CANCELLED            2024-04-04T06:47:41   02:55:20        1        128       nid001248 
+```
 
 
+But the log file is telling us what happened
+```
+  perlmutter $ peekf
+  CPU     0: STEP CPU TIME=    53.98 TOTAL CPU TIME=      10482.7 (    174.7 MIN)
+  TOTAL WALL CLOCK TIME=      10482.7 SECONDS, CPU UTILIZATION IS   100.00%
+
+          ---------------------
+          ELECTROSTATIC MOMENTS
+          ---------------------
+
+  slurmstepd: error: *** STEP 23947569.0 ON nid001248 CANCELLED AT 2024-04-04T16:42:51 DUE TO TIME LIMIT ***
+```
+
+
+
+<a name=long_job></a>
+#### JL=23941996
+
+
+```
   perlmutter $ export JL=23941996
 
   perlmutter $ alias peek="ls -lh $PSCRATCH/$JL/output/JOB.*/*.log"
@@ -263,6 +302,7 @@ JL=23941996
 
 
 ```
+
 
 
 
@@ -334,10 +374,11 @@ Show the status of the two jobs
 ### Check that Gamess hangs
 
 
+<a name=short_job2></a>
+#### JS=23947619
+
+
 ```
-
-JS=23947619
-
 
   perlmutter $ export JS=23947619  
 
@@ -345,17 +386,19 @@ JS=23947619
 
   perlmutter $ alias peekf="tail -8 $PSCRATCH/$JS/output/JOB.*/JOB*.log"
 
+```
 
 
-JL=23942197
 
+<a name=long_job2></a>
+#### JL=23942197
+
+
+```
   perlmutter $ export JL=23942197
 
   perlmutter $ alias peek="ls -lh $PSCRATCH/$JL/output/JOB.*/*.log"
 
   perlmutter $ alias peekf="tail -8 $PSCRATCH/$JL/output/JOB.*/JOB*.log"
-
-
-
 
 ```

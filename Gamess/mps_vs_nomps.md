@@ -62,7 +62,7 @@ Job control scripts without (subgms_batch_profile_ppn8x2y_pros.sh) and with (sub
 
 ```
 
-The only difference is the block of code executed
+The only difference is the block of code that executes srun
 
 ```
   perlmutter $ diff \

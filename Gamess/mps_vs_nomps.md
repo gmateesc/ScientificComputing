@@ -219,6 +219,20 @@ Show the status of the two jobs
   23947569.0   gamess.00+                   128    RUNNING            2024-04-04T06:47:41   00:14:44        1        128       nid001248 
 
 
+
+  perlmutter $ sacct -j $J $fmt
+  JobID           JobName  Partition  AllocCPUS      State  Timelimit               Start    Elapsed   NNodes      NCPUS        NodeList 
+  ------------ ---------- ---------- ---------- ---------- ---------- ------------------- ---------- -------- ---------- --------------- 
+  23941996     subgms_ba+   gpu_ss11        128    RUNNING   07:55:00 2024-04-04T16:29:40   00:56:41        1        128       nid008264 
+  23941996.ba+      batch                   128    RUNNING            2024-04-04T16:29:40   00:56:41        1        128       nid008264 
+  23941996.ex+     extern                   128    RUNNING            2024-04-04T16:29:40   00:56:41        1        128       nid008264 
+  23941996.0   gamess.00+                   128    RUNNING            2024-04-04T16:29:49   00:56:32        1        128       nid008264 
+
+  23947569     subgms_ba+   gpu_ss11        128    TIMEOUT   02:55:00 2024-04-04T06:47:28   02:55:22        1        128       nid001248 
+  23947569.ba+      batch                   128  CANCELLED            2024-04-04T06:47:28   02:55:29        1        128       nid001248 
+  23947569.ex+     extern                   128  COMPLETED            2024-04-04T06:47:28   02:55:27        1        128       nid001248 
+  23947569.0   gamess.00+                   128  CANCELLED            2024-04-04T06:47:41   02:55:20        1        128       nid001248 
+
 ```
 
 
@@ -296,9 +310,25 @@ But the log file is telling us what happened
 ```
   perlmutter $ export JL=23941996
 
+
   perlmutter $ alias peek="ls -lh $PSCRATCH/$JL/output/JOB.*/*.log"
 
+  perlmutter $ peek
+  -rw-rw---- 1 gmateesc gmateesc  33M Apr  4 17:27 /pscratch/sd/g/gmateesc/23941996/output/JOB.23941996/gpu_usage_23941996_1.log
+  -rw-r----- 1 gmateesc gmateesc 2.4M Apr  4 17:27 /pscratch/sd/g/gmateesc/23941996/output/JOB.23941996/JOB.23941996.log
+
+
+
   perlmutter $ alias peekf="tail -8 $PSCRATCH/$JL/output/JOB.*/JOB*.log"
+  perlmutter $ peekf
+  gpu time tdhf_apb (s)=           1.02
+  gpu time tdhf_amb (s)=           0.85
+  gpu time tdhf_apb (s)=           1.00
+  gpu time tdhf_amb (s)=           0.85
+  gpu time tdhf_apb (s)=           0.98
+  gpu time tdhf_amb (s)=           0.83
+  gpu time tdhf_apb (s)=           0.97
+  slurmstepd: error: *** STEP 23941996.0 ON nid008264 CANCELLED AT 2024-04-05T00:27:02 ***
 
 
 ```

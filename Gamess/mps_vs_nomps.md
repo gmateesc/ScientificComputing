@@ -207,19 +207,6 @@ Show the status of the two jobs
 
   perlmutter $ fmt="--format=JobID,Jobname,Partition,AllocCPUS,state,time,start,elapsed,nnodes,ncpus,nodelist"
 
-
-  perlmutter $ sacct -j $J $fmt
-  JobID           JobName  Partition  AllocCPUS      State  Timelimit               Start    Elapsed   NNodes      NCPUS        NodeList 
-  ------------ ---------- ---------- ---------- ---------- ---------- ------------------- ---------- -------- ---------- --------------- 
-  23941996     subgms_ba+   gpu_ss11          0    PENDING   07:55:00             Unknown   00:00:00        1          0   None assigned 
-
-  23947569     subgms_ba+   gpu_ss11        128    RUNNING   02:55:00 2024-04-04T06:47:28   00:14:57        1        128       nid001248 
-  23947569.ba+      batch                   128    RUNNING            2024-04-04T06:47:28   00:14:57        1        128       nid001248 
-  23947569.ex+     extern                   128    RUNNING            2024-04-04T06:47:28   00:14:57        1        128       nid001248 
-  23947569.0   gamess.00+                   128    RUNNING            2024-04-04T06:47:41   00:14:44        1        128       nid001248 
-
-
-
   perlmutter $ sacct -j $J $fmt
   JobID           JobName  Partition  AllocCPUS      State  Timelimit               Start    Elapsed   NNodes      NCPUS        NodeList 
   ------------ ---------- ---------- ---------- ---------- ---------- ------------------- ---------- -------- ---------- --------------- 
@@ -318,7 +305,6 @@ But the log file is telling us what happened
   -rw-r----- 1 gmateesc gmateesc 2.4M Apr  4 17:27 /pscratch/sd/g/gmateesc/23941996/output/JOB.23941996/JOB.23941996.log
 
 
-
   perlmutter $ alias peekf="tail -8 $PSCRATCH/$JL/output/JOB.*/JOB*.log"
   perlmutter $ peekf
   gpu time tdhf_apb (s)=           1.02
@@ -387,12 +373,16 @@ Show the status of the two jobs
 
   perlmutter $ fmt="--format=JobID,Jobname,Partition,AllocCPUS,state,time,start,elapsed,nnodes,ncpus,nodelist"
 
+
   perlmutter $ sacct -j $J $fmt
   JobID           JobName  Partition  AllocCPUS      State  Timelimit               Start    Elapsed   NNodes      NCPUS        NodeList 
   ------------ ---------- ---------- ---------- ---------- ---------- ------------------- ---------- -------- ---------- --------------- 
   23942197     subgms_ba+   gpu_ss11          0    PENDING   07:55:00             Unknown   00:00:00        1          0   None assigned 
-  23947619     subgms_ba+   gpu_ss11          0    PENDING   02:55:00             Unknown   00:00:00        1          0   None assigned 
 
+  23947619     subgms_ba+   gpu_ss11        128    RUNNING   02:55:00 2024-04-04T19:15:29   00:51:51        1        128       nid008233 
+  23947619.ba+      batch                   128    RUNNING            2024-04-04T19:15:29   00:51:51        1        128       nid008233 
+  23947619.ex+     extern                   128    RUNNING            2024-04-04T19:15:29   00:51:51        1        128       nid008233 
+  23947619.0   mps-wrapp+                   128    RUNNING            2024-04-04T19:15:38   00:51:42        1        128       nid008233 
 
 
 ```
@@ -413,8 +403,13 @@ Show the status of the two jobs
   perlmutter $ export JS=23947619  
 
   perlmutter $ alias peek="ls -lh $PSCRATCH/$JS/output/JOB.*/*.log"
+  perlmutter $ peek
+  -rw-rw---- 1 gmateesc gmateesc 29M Apr  4 20:09 /pscratch/sd/g/gmateesc/23947619/output/JOB.23947619/gpu_usage_23947619_1.log
+  -rw-r----- 1 gmateesc gmateesc   0 Apr  4 19:15 /pscratch/sd/g/gmateesc/23947619/output/JOB.23947619/JOB.23947619.log
 
   perlmutter $ alias peekf="tail -8 $PSCRATCH/$JS/output/JOB.*/JOB*.log"
+  perlmutter $ peekf
+
 
 ```
 
